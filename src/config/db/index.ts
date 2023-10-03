@@ -1,6 +1,5 @@
 import knex from "knex";
 import knexFile from "./knexfile";
-import env from "dotenv";
 
 // determine which config to use when in development or production environment
 const dbEnv =

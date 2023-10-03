@@ -9,7 +9,9 @@
     "start": "node ./dist/server.js",
     "watch": "tsc --watch",
     "knexInit": "knex init",
-    "migrate": "cd src/config/db && knex migrate:make"
+    "migrate": "cd src/config/db && knex migrate:make",
+    "runMigrate": "knex migrate:latest --knexfile ./src/config/db/knexfile.ts",
+    "runRollback": "knex migrate:rollback --knexfile ./src/config/db/knexfile.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +24,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "knex": "^2.5.1",
-    "mysql2": "^3.6.1",
+    "mysql": "^2.18.1",
     "winston": "^3.8.2"
   },
   "devDependencies": {
