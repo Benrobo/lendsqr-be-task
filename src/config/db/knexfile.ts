@@ -1,15 +1,23 @@
-import ENV from "config/env";
 import path from "path";
+import dotenv from "dotenv";
+dotenv.config({ path: path.join(__dirname, "..", "..", "..", "./.env") });
+
+const host = process.env.DB_HOST ?? "localhost";
+const port = process.env.DB_PORT ?? "3306";
+const user = process.env.DB_USER ?? "root";
+const password = process.env.DB_PASSWORD ?? null;
+const database = process.env.DB_NAME ?? "lendsqr";
 
 const knexConfig = {
   development: {
-    client: "mysql2",
+    client: "mysql",
     connection: {
-      connectionString: ENV.databaseUrl,
-      // host: "localhost",
-      // user: "user",
-      // password: null,
-      // database: "lendsqr",
+      connectionString: process.env.DATABASE_URL,
+      host,
+      port,
+      user,
+      password,
+      database,
     },
     migrations: {
       tableName: "knex_migrations",
@@ -18,12 +26,9 @@ const knexConfig = {
     debug: true,
   },
   production: {
-    client: "mysql2",
+    client: "mysql",
     connection: {
-      host: process.env.DB_HOST,
-      user: "user",
-      password: null,
-      database: "lendsqr",
+      connectionString: process.env.DATABASE_URL,
     },
     migrations: {
       tableName: "knex_migrations",
