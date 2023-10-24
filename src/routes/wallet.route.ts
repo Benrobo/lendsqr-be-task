@@ -3,7 +3,11 @@ import useCatchErrors from "../error/catchErrors";
 import WalletController from "../controller/wallet.controller";
 import { isAuthenticated } from "../middlewares/auth";
 import zodValidation from "../middlewares/zodValidation";
-import { TransferFundsSchema, WalletFundingSchema } from "../helper/validate";
+import {
+  TransferFundsSchema,
+  WalletFundingSchema,
+  WalletWithdrawalSchema,
+} from "../helper/validate";
 
 export default class WalletRoute {
   router = express.Router();
@@ -27,6 +31,15 @@ export default class WalletRoute {
       isAuthenticated,
       zodValidation(TransferFundsSchema),
       useCatchErrors(this.walletController.transfer.bind(this.walletController))
+    );
+
+    this.router.post(
+      `${this.path}/withdraw`,
+      isAuthenticated,
+      zodValidation(WalletWithdrawalSchema),
+      useCatchErrors(
+        this.walletController.withdrawFunds.bind(this.walletController)
+      )
     );
   }
 }

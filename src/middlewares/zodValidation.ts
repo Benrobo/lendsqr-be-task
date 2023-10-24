@@ -4,7 +4,6 @@ import { AnyZodObject } from "zod";
 
 export default function zodValidation(schema: AnyZodObject) {
   return async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body ?? req.params ?? req.query);
     try {
       await schema.parseAsync(req.body ?? req.params ?? req.query);
       return next();

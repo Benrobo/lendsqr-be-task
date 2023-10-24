@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
   FundWalletType,
+  FundWalletType as FundWithdrawalType,
   RESPONSE_CODE,
   TransactionType,
   TransferFunds,
@@ -50,6 +51,7 @@ export default class WalletController extends BaseController {
       receiver_id: userId,
       amount,
       status: TransactionType[TransactionType.success],
+      type: "funding",
       fee: 0,
     });
 
@@ -148,6 +150,7 @@ export default class WalletController extends BaseController {
       sender_id: sender.id,
       amount,
       status: TransactionType[TransactionType.success],
+      type: "transfer",
       fee: 0,
     });
 
@@ -156,6 +159,63 @@ export default class WalletController extends BaseController {
       RESPONSE_CODE.TRANSFER_SUCCESSFULL,
       "Transfer successfull.",
       201
+    );
+  }
+
+  async withdrawFunds(req: Request, res: Response) {
+    const userId = (req as any)?.user?.id;
+    const { pin, amount } = req.body as FundWithdrawalType;
+
+    // check if pin is valid
+    const details = await db("users")
+      .where("users.id", userId)
+      .join("wallet", "wallet.user_id", "=", "users.id")
+      .select("users.transaction_pin", "wallet.balance");
+
+    const { transaction_pin, balance } = details[0];
+    if (!bcrypt.compareSync(pin, transaction_pin)) {
+      return this.error(
+        res,
+        RESPONSE_CODE.INVALID_TRANSACTION_PIN,
+        "Invalid transaction credentials",
+        400
+      );
+    }
+
+    // check if withdrawal amount is valid
+    if (balance < amount) {
+      return this.error(
+        res,
+        RESPONSE_CODE.INSUFFICIENT_FUNDS,
+        `Insufficient funds in your account to complete this transaction.`,
+        400
+      );
+    }
+
+    // withdraw wallet
+    const totalBalance = balance - amount;
+    await db("wallet")
+      .update({
+        balance: totalBalance,
+      })
+      .where("wallet.user_id", userId);
+
+    // create transaction
+    await db("transactions").insert({
+      id: shortUUID.generate(),
+      receiver_id: userId,
+      amount,
+      status: TransactionType[TransactionType.success],
+      type: "withdrawal",
+      fee: 0,
+    });
+
+    this.success(
+      res,
+      RESPONSE_CODE.WITHDRAWAL_SUCCESSFULL,
+      "withdrawal successfully.",
+      201,
+      { totalBalance }
     );
   }
 }
