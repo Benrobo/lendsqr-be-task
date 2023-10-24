@@ -25,7 +25,7 @@ export default class UserController extends BaseController {
 
     this.success(
       res,
-      RESPONSE_CODE.SUCCESS,
+      RESPONSE_CODE.USER_DETAILS,
       "user details fetched",
       201,
       details
