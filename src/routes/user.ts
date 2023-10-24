@@ -1,6 +1,6 @@
 import express from "express";
 import useCatchErrors from "../error/catchErrors";
-import UserController from "../controller/user";
+import UserController from "../controller/user.controller";
 
 export default class UserRoute {
   router = express.Router();

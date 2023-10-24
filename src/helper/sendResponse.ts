@@ -1,3 +1,4 @@
+import { RESPONSE_CODE } from "../@types";
 import { Response } from "express";
 
 export default class SendResponse {
@@ -8,14 +9,14 @@ export default class SendResponse {
 
   error(
     res: Response,
-    code: string,
+    code: RESPONSE_CODE,
     message: string,
     statusCode: number,
-    data: any
+    data?: any
   ) {
     const response = {
       errorStatus: true,
-      code: code ?? "--error",
+      code: RESPONSE_CODE[code],
       message: message ?? this.capitalizeWord("error-message"),
       statusCode: statusCode ?? 400,
       data,
@@ -25,14 +26,14 @@ export default class SendResponse {
 
   success(
     res: Response,
-    code: string,
+    code: RESPONSE_CODE,
     message: string,
     statusCode: number,
-    data: any
+    data?: any
   ) {
     const response = {
       errorStatus: false,
-      code: code ?? "--success",
+      code: RESPONSE_CODE[code],
       message: message ?? this.capitalizeWord("success-message"),
       statusCode: statusCode ?? 200,
       data: data ?? null,

@@ -4,7 +4,7 @@
   "main": "./dist/server.js",
   "scripts": {
     "test": "",
-    "dev": "nodemon",
+    "dev": "nodemon ./src/server.ts",
     "build": "rimraf ./dist && tsc",
     "start": "node ./dist/server.js",
     "watch": "tsc --watch",
@@ -22,10 +22,12 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.0",
+    "jsonwebtoken": "^9.0.2",
     "knex": "^2.5.1",
     "mysql": "^2.18.1",
-    "winston": "^3.8.2"
+    "short-uuid": "^4.2.2",
+    "winston": "^3.8.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

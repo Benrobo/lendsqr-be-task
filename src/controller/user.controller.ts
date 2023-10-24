@@ -1,4 +1,5 @@
-import BaseController from "./base";
+import { RESPONSE_CODE } from "../@types";
+import BaseController from "./base.controller";
 
 export default class UserController extends BaseController {
   constructor() {
@@ -18,7 +19,7 @@ export default class UserController extends BaseController {
     ];
     this.success(
       res,
-      "--user/fake-data",
+      RESPONSE_CODE.SUCCESS,
       "user data fetched successfully",
       200,
       userdata

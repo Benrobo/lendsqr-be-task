@@ -17,7 +17,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable("wallet", (table) => {
       table.string("id").notNullable();
       table.string("user_id");
-      table.decimal("balance", 10);
+      table.decimal("balance", 10).defaultTo(0);
       table.string("currency");
       table.timestamps(true, true);
 
