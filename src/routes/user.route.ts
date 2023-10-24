@@ -23,5 +23,13 @@ export default class UserRoute {
         this.userController.updateTransactionPin.bind(this.userController)
       )
     );
+
+    this.router.get(
+      `${this.path}/transactions`,
+      isAuthenticated,
+      useCatchErrors(
+        this.userController.fetchTransactions.bind(this.userController)
+      )
+    );
   }
 }
