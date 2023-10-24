@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { RESPONSE_CODE } from "../@types";
 import BaseController from "./base.controller";
-import { TransactionPinSchema } from "../helper/validate";
 import bcrypt from "bcryptjs";
 import db from "../config/db";
 
@@ -10,7 +9,28 @@ export default class UserController extends BaseController {
     super();
   }
 
-  async getInfo(req, res) {}
+  async getUserInfo(req: Request, res: Response) {
+    const userId = (req as any).user?.id;
+    const info = await db("users")
+      .join("wallet", "wallet.user_id", "users.id")
+      .select(
+        "users.email",
+        "users.username",
+        "wallet.balance",
+        "wallet.currency"
+      )
+      .where("users.id", userId);
+
+    const details = info[0];
+
+    this.success(
+      res,
+      RESPONSE_CODE.SUCCESS,
+      "user details fetched",
+      201,
+      details
+    );
+  }
 
   async updateTransactionPin(req: Request, res: Response) {
     const userId = (req as any).user?.id;

@@ -15,6 +15,12 @@ export default class UserRoute {
   }
 
   initializeRoutes() {
+    this.router.get(
+      `${this.path}`,
+      isAuthenticated,
+      useCatchErrors(this.userController.getUserInfo.bind(this.userController))
+    );
+
     this.router.patch(
       `${this.path}/transactionPin`,
       isAuthenticated,
