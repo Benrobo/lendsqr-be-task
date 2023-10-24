@@ -14,16 +14,7 @@ export default class AuthController extends BaseController {
 
   async signup(req: Request, res: Response) {
     const payload = req.body;
-    const validate = SignupSchema.safeParse(payload);
-    if (!validate.success) {
-      return this.error(
-        res,
-        RESPONSE_CODE.INVALID_FIELDS,
-        "One or more of the input is invalid.",
-        400
-      );
-    }
-    const { email, username, password } = validate.data;
+    const { email, username, password } = payload;
 
     // check if user exists
     const users = await db("users").where("email", email);
@@ -66,16 +57,7 @@ export default class AuthController extends BaseController {
 
   async login(req: Request, res: Response) {
     const payload = req.body;
-    const validate = LoginSchema.safeParse(payload);
-    if (!validate.success) {
-      return this.error(
-        res,
-        RESPONSE_CODE.INVALID_FIELDS,
-        "One or more of the input is invalid.",
-        400
-      );
-    }
-    const { email, password } = validate.data;
+    const { email, password } = payload;
 
     // check if user exists
     const users = await db("users").where("email", email);
