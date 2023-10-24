@@ -45,3 +45,19 @@ export const WalletFundingSchema = z.object({
     })
     .min(1, "Invalid amount provided."),
 });
+
+export const TransferFundsSchema = z.object({
+  pin: z
+    .string({
+      required_error: "pin is required",
+    })
+    .min(6, "Expected 6 digits pin."),
+  amount: z
+    .number({
+      required_error: "amount is required",
+    })
+    .min(1, "Invalid amount provided."),
+  recepient_email: z.string({
+    required_error: "recepient_email is required",
+  }),
+});

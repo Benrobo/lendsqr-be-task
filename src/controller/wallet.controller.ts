@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { FundWalletType, RESPONSE_CODE, TransactionType } from "../@types";
+import {
+  FundWalletType,
+  RESPONSE_CODE,
+  TransactionType,
+  TransferFunds,
+  UserTransferDetails,
+} from "../@types";
 import BaseController from "./base.controller";
 import db from "../config/db";
 import bcrypt from "bcryptjs";
@@ -53,6 +59,103 @@ export default class WalletController extends BaseController {
       "wallet funded successfully.",
       201,
       { balance: totalBalance }
+    );
+  }
+
+  async transfer(req: Request, res: Response) {
+    const userId = (req as any)?.user?.id;
+    const { pin, amount, recepient_email } = req.body as TransferFunds;
+
+    const users = await db("users")
+      .join("wallet", "wallet.user_id", "=", "users.id")
+      .join("users as sender", "users.id", "sender.id")
+      .join("users as receiver", "users.email", "receiver.email")
+      .select(
+        "users.email",
+        "wallet.balance",
+        "users.id",
+        "users.transaction_pin"
+      )
+      .where((builder) => {
+        builder
+          .where("sender.id", userId)
+          .orWhere("receiver.email", recepient_email);
+      });
+
+    const [sender, receiver] = users as UserTransferDetails[];
+
+    // check sender credentials
+    if (!bcrypt.compareSync(pin, sender.transaction_pin)) {
+      return this.error(
+        res,
+        RESPONSE_CODE.INVALID_TRANSACTION_PIN,
+        "Invalid transaction credentials",
+        400
+      );
+    }
+
+    if (typeof receiver === "undefined") {
+      return this.error(
+        res,
+        RESPONSE_CODE.RECEPIENT_NOT_FOUND,
+        `Recepient not found`,
+        404
+      );
+    }
+
+    // prevent sending to same account
+    if (sender.id === receiver.id) {
+      return this.error(
+        res,
+        RESPONSE_CODE.SELF_TRANSFER_NOT_ALLOWED,
+        `You cannot send money to your own account.`,
+        403
+      );
+    }
+
+    // check if sender has sufficient funds
+    if (sender.balance < amount) {
+      return this.error(
+        res,
+        RESPONSE_CODE.INSUFFICIENT_FUNDS,
+        `Insufficient funds in your account to complete this transaction.`,
+        400
+      );
+    }
+
+    // credit receiver & debit sender
+    const debitedBalance = sender.balance - amount;
+    const creditedBalance = receiver.balance + amount;
+
+    // credit
+    await db("wallet")
+      .update({
+        balance: creditedBalance,
+      })
+      .where("wallet.user_id", receiver.id);
+
+    // debit
+    await db("wallet")
+      .update({
+        balance: debitedBalance,
+      })
+      .where("wallet.user_id", sender.id);
+
+    // create transactions
+    await db("transactions").insert({
+      id: shortUUID.generate(),
+      receiver_id: receiver.id,
+      sender_id: sender.id,
+      amount,
+      status: TransactionType[TransactionType.success],
+      fee: 0,
+    });
+
+    this.success(
+      res,
+      RESPONSE_CODE.TRANSFER_SUCCESSFULL,
+      "Transfer successfull.",
+      201
     );
   }
 }
