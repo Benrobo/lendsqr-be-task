@@ -5,13 +5,27 @@ export enum RESPONSE_CODE {
   INVALID_EMAIL,
   INVALID_LOGIN_CREDENTIALS,
   INTERNAL_SERVER_ERROR,
+  INVALID_TRANSACTION_PIN,
   SUCCESS,
   SIGNUP_SUCCESSFULL,
   LOGIN_SUCCESSFULL,
   UNAUTHORIZED,
   FORBIDDEN,
+  TRANSACTION_PIN_UPDATED_SUCCESSFULL,
+  WALLET_FUNDED_SUCCESSFULL,
+  VALIDATION_ERROR,
 }
 
 export interface decodedJWT {
   userId: string;
+}
+
+export interface FundWalletType {
+  pin: string;
+  amount: number;
+}
+
+export enum TransactionType {
+  success,
+  failed,
 }

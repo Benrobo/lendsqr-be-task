@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import BaseController from "./base.controller";
-import { LoginSchema, SignupSchema } from "../helper/validate";
 import { RESPONSE_CODE } from "../@types/index";
 import db from "../config/db";
 import bcrypt from "bcryptjs";

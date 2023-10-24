@@ -19,7 +19,7 @@ export async function isAuthenticated(
   try {
     // verify token
     const jwt = new JWT();
-    const decoded: decodedJWT = await jwt.verifyToken(token);
+    const decoded = (await jwt.verifyToken(token)) as decodedJWT;
 
     // check if user exists or not
     const users = await db("users").where("id", decoded.userId);
@@ -35,11 +35,9 @@ export async function isAuthenticated(
   } catch (err: any) {
     // console.log(err);
     logger.error(`Forbidden: ${err.message}`);
-    return res
-      .status(403)
-      .json({
-        code: RESPONSE_CODE[RESPONSE_CODE.FORBIDDEN],
-        message: "Invalid authorization token",
-      });
+    return res.status(403).json({
+      code: RESPONSE_CODE[RESPONSE_CODE.FORBIDDEN],
+      message: "Invalid authorization token",
+    });
   }
 }
