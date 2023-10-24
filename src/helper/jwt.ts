@@ -6,12 +6,12 @@ export default class JWT {
   private _secret = process.env.JWT_SECRET;
 
   async accessToken(data: any) {
-    const token = await jwt.sign({ data }, this._secret, { expiresIn: "1h" });
+    const token = await jwt.sign(data, this._secret, { expiresIn: "1h" });
     return token;
   }
 
   async refreshToken(data: any) {
-    const token = await jwt.sign({ data }, this._secret, { expiresIn: "365d" });
+    const token = await jwt.sign(data, this._secret, { expiresIn: "365d" });
     return token;
   }
 

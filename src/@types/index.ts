@@ -8,4 +8,10 @@ export enum RESPONSE_CODE {
   SUCCESS,
   SIGNUP_SUCCESSFULL,
   LOGIN_SUCCESSFULL,
+  UNAUTHORIZED,
+  FORBIDDEN,
+}
+
+export interface decodedJWT {
+  userId: string;
 }

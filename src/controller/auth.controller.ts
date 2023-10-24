@@ -105,8 +105,8 @@ export default class AuthController extends BaseController {
 
     // generate access and refresh token token
     const jwt = new JWT();
-    const refreshToken = await jwt.refreshToken(userId);
-    const accessToken = await jwt.refreshToken(userId);
+    const refreshToken = await jwt.refreshToken({ userId });
+    const accessToken = await jwt.refreshToken({ userId });
 
     // update user refresh_token in database
     await db("users")
