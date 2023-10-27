@@ -7,20 +7,341 @@
   },
   "servers": [
     {
-      "url": "https://zuriportfolio-shop-internal-api.onrender.com/api/v1",
+      "url": "https://zuriportfolio-shop-internal-api.onrender.com/api/",
       "description": "Production server"
     },
     {
-      "url": "http://localhost:8080/api/v1",
+      "url": "http://localhost:8080/api/",
       "description": "Local Server."
     }
   ],
-  "paths": {},
-  "securitySchemes": {
-    "BearerAuth": {
-      "type": "http",
-      "scheme": "bearer",
-      "bearerFormat": "JWT"
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Sign up a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "John"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "sicoj92691@elixirsd.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "myPassword2021"
+                  }
+                },
+                "required": ["username", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull Authentication."
+          },
+          "400": {
+            "description": "Bad request. Please check the request parameters."
+          },
+          "401": {
+            "description": "Unauthorized. Refresh token is invalid or has expired."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Log in a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "sicoj92691@elixirsd.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "myPassword2021"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull Authentication."
+          },
+          "400": {
+            "description": "Bad request. Please check the request parameters."
+          },
+          "401": {
+            "description": "Unauthorized. Refresh token is invalid or has expired."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/wallet": {
+      "post": {
+        "tags": ["Wallet"],
+        "summary": "Fund your wallet.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pin": {
+                    "type": "string",
+                    "example": "123456"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 20000
+                  }
+                },
+                "required": ["pin", "amount"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull Response."
+          },
+          "400": {
+            "description": "Bad request. Please check the request parameters."
+          },
+          "401": {
+            "description": "Unauthorized. Refresh token is invalid or has expired."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/wallet/withdraw": {
+      "post": {
+        "tags": ["Wallet"],
+        "summary": "Withdraw funds from wallet.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pin": {
+                    "type": "string",
+                    "example": "123456"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 20000
+                  }
+                },
+                "required": ["pin", "amount"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull Response."
+          },
+          "400": {
+            "description": "Bad request. Please check the request parameters."
+          },
+          "401": {
+            "description": "Unauthorized. Refresh token is invalid or has expired."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/wallet/transfer": {
+      "post": {
+        "tags": ["Wallet"],
+        "summary": "Transfer funds from one user to another.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pin": {
+                    "type": "string",
+                    "example": "123456"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 20000
+                  },
+                  "recepient_email": {
+                    "type": "string",
+                    "example": "sicoj92691@elixirsd.com"
+                  }
+                },
+                "required": ["pin", "recepient_email", "amount"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull Response."
+          },
+          "400": {
+            "description": "Bad request. Please check the request parameters."
+          },
+          "401": {
+            "description": "Unauthorized. Refresh token is invalid or has expired."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Retrieve user information / details.",
+        "responses": {
+          "200": {
+            "description": "Successfull Response."
+          },
+          "400": {
+            "description": "Bad request. Please check the request parameters."
+          },
+          "401": {
+            "description": "Unauthorized. Refresh token is invalid or has expired."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/transactionPin": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update a transaction pin.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pin": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": ["pin"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull Response."
+          },
+          "400": {
+            "description": "Bad request. Please check the request parameters."
+          },
+          "401": {
+            "description": "Unauthorized. Refresh token is invalid or has expired."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/transactions": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Retrieve all transactions.",
+        "responses": {
+          "200": {
+            "description": "Successfull Response."
+          },
+          "400": {
+            "description": "Bad request. Please check the request parameters."
+          },
+          "401": {
+            "description": "Unauthorized. Refresh token is invalid or has expired."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
   }
 }
