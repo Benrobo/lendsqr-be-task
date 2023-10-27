@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://zuriportfolio-shop-internal-api.onrender.com/api/",
+      "url": "https://benaiah-lendsqr-be-test.onrender.com/api/",
       "description": "Production server"
     },
     {
