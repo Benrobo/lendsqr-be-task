@@ -1,5 +1,8 @@
 import { Knex } from "knex";
 
+//! Had to remove any foreign keys from schema..
+//! because prod DB server i used doesn't support it.
+
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable("users", (table) => {
@@ -23,7 +26,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.primary(["id"]);
       table.unique(["user_id"]);
-      table.foreign("user_id").references("users.id").onDelete("CASCADE");
+      // table.foreign("user_id").references("users.id").onDelete("CASCADE");
     })
     .createTable("transactions", (table) => {
       table.string("id").notNullable();
@@ -38,8 +41,8 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamps(true, true);
 
       table.primary(["id"]);
-      table.foreign("sender_id").references("users.id").onDelete("CASCADE");
-      table.foreign("receiver_id").references("users.id").onDelete("CASCADE");
+      // table.foreign("sender_id").references("users.id").onDelete("CASCADE");
+      // table.foreign("receiver_id").references("users.id").onDelete("CASCADE");
     });
 }
 

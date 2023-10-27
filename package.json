@@ -10,7 +10,8 @@
     "watch": "tsc --watch",
     "knexInit": "knex init",
     "migrate": "cd src/config/db && knex migrate:make",
-    "runMigrate": "knex migrate:latest --knexfile ./src/config/db/knexfile.ts",
+    "runMigrate:dev": "knex migrate:latest --knexfile ./src/config/db/knexfile.ts --env=development",
+    "runMigrate:prod": "knex migrate:latest --knexfile ./src/config/db/knexfile.ts --env=production",
     "runRollback": "knex migrate:rollback --knexfile ./src/config/db/knexfile.ts"
   },
   "keywords": [],
@@ -25,6 +26,7 @@
     "jsonwebtoken": "^9.0.2",
     "knex": "^2.5.1",
     "mysql": "^2.18.1",
+    "mysql2": "^3.6.2",
     "short-uuid": "^4.2.2",
     "swagger-ui-express": "^5.0.0",
     "winston": "^3.8.2",
