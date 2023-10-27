@@ -23,6 +23,13 @@ export default class UserController extends BaseController {
 
     const details = info[0];
 
+    details["wallet"] = {
+      balance: details?.balance,
+    };
+
+    // remove balance key
+    delete details["balance"];
+
     this.success(
       res,
       RESPONSE_CODE.USER_DETAILS,

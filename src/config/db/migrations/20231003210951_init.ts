@@ -32,19 +32,14 @@ export async function up(knex: Knex): Promise<void> {
       table.decimal("amount", 10);
       table.string("status");
       table.decimal("fee", 10);
+      table
+        .enum("type", ["withdrawal", "funding", "transfer"])
+        .defaultTo("withdrawal");
       table.timestamps(true, true);
 
       table.primary(["id"]);
       table.foreign("sender_id").references("users.id").onDelete("CASCADE");
       table.foreign("receiver_id").references("users.id").onDelete("CASCADE");
-    })
-    .createTable("payment_events", (table) => {
-      table.string("id").notNullable();
-      table.string("user_id");
-      table.timestamps(true, true);
-
-      table.primary(["id"]);
-      table.foreign("user_id").references("users.id").onDelete("CASCADE");
     });
 }
 
