@@ -6,6 +6,10 @@
 
 ![erd diagram](https://raw.githubusercontent.com/Benrobo/lendsqr-be-task/main/md_assets/db_ERD.png)
 
+#### API Testing
+
+![test script](https://raw.githubusercontent.com/Benrobo/lendsqr-be-task/main/md_assets/lendsqr-test.gif)
+
 ## Assessment Setup 🔼
 
 Before setting up this assessment, make sure you have the following package installed locally:
