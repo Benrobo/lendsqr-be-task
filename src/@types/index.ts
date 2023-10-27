@@ -1,3 +1,10 @@
+import { Router } from "express";
+
+export interface Routes {
+  path: string;
+  router: Router;
+}
+
 export enum RESPONSE_CODE {
   // Common Responses
   INVALID_FIELDS,

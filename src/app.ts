@@ -4,7 +4,7 @@ import { requestLogger } from "./middlewares/logger";
 import bodyParser from "body-parser";
 import logger from "./config/logger";
 import HandleErrors from "./middlewares/error";
-import { Routes } from "./interface/routes.interface";
+import { Routes } from "./@types";
 import swaggerUi from "swagger-ui-express";
 import swagggerJson from "./doc/swagger.json";
 
