@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import logger from "../config/logger";
-import { RESPONSE_CODE } from "@types";
+import { RESPONSE_CODE } from "../@types";
 
 export default function HandleErrors(
   err: any,
