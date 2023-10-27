@@ -5,6 +5,8 @@ import bodyParser from "body-parser";
 import logger from "./config/logger";
 import HandleErrors from "./middlewares/error";
 import { Routes } from "./interface/routes.interface";
+import swaggerUi from "swagger-ui-express";
+import swagggerJson from "./doc/swagger.json";
 
 export default class App {
   public app: express.Application;
@@ -15,6 +17,7 @@ export default class App {
     this.app = express();
     this.port = process.env.PORT ?? 8080;
     this.initializeMiddlewares();
+    this.initSwaggerUI();
   }
 
   initDB() {
@@ -32,6 +35,11 @@ export default class App {
     );
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
+  }
+
+  initSwaggerUI() {
+    // handle swagger-doc
+    this.app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swagggerJson));
   }
 
   listen() {

@@ -26,6 +26,7 @@
     "knex": "^2.5.1",
     "mysql": "^2.18.1",
     "short-uuid": "^4.2.2",
+    "swagger-ui-express": "^5.0.0",
     "winston": "^3.8.2",
     "zod": "^3.22.4"
   },
