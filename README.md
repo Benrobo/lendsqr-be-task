@@ -6,6 +6,10 @@
 .
 [API Postman Documentation](https://documenter.getpostman.com/view/12455396/2s9YRGxUAM)
 
+<br />
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/12455396-dffe94d8-8e3a-4643-b149-5dd988d12781?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D12455396-dffe94d8-8e3a-4643-b149-5dd988d12781%26entityType%3Dcollection%26workspaceId%3Ddef3fe55-7590-4202-85b4-5f255596b71f)
+
 #### E-R Diagram
 
 ![erd diagram](https://raw.githubusercontent.com/Benrobo/lendsqr-be-task/main/md_assets/db_ERD.png)
