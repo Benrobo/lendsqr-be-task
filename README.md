@@ -3,6 +3,8 @@
 [View the assessment requirements](/task.md)
 .
 [API Explanation](https://benrobo.notion.site/Lendsqr-API-doc-e51845e922914365b613b166374b8e3b?pvs=4)
+.
+[API Postman Documentation](https://documenter.getpostman.com/view/12455396/2s9YRGxUAM)
 
 #### E-R Diagram
 
