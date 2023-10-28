@@ -40,7 +40,7 @@ git clone https://github.com/Benrobo/lendsqr-be-task.git
   Install the dependencies using yarn.
 
 ```bash
- ➡️ lendsqr-be-task git:(main) ✗ yarn install
+ yarn install
 ```
 
 - #### Create a local database :three:
@@ -71,14 +71,14 @@ git clone https://github.com/Benrobo/lendsqr-be-task.git
   > :warning: Make sure mysql service is installed and running.
 
 ```bash
- ➡️ lendsqr-be-task git:(main) ✗ yarn runMigrate:dev
+ yarn runMigrate:dev
 ```
 
 - ### Start local server :five:
   Start the local development server using the command below.
 
 ```bash
- ➡️ lendsqr-be-task git:(main) ✗ yarn dev
+ yarn dev
 ```
 
 The following command should be printed to the console if successful.
