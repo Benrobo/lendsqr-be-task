@@ -38,10 +38,9 @@ export default class WalletController extends BaseController {
     }
 
     // fund wallet
-    const totalBalance = balance + amount;
     await db("wallet")
       .update({
-        balance: totalBalance,
+        balance: balance + amount,
       })
       .where("wallet.user_id", userId);
 
@@ -59,8 +58,7 @@ export default class WalletController extends BaseController {
       res,
       RESPONSE_CODE.WALLET_FUNDED_SUCCESSFULL,
       "wallet funded successfully.",
-      201,
-      { balance: totalBalance }
+      201
     );
   }
 
@@ -193,10 +191,9 @@ export default class WalletController extends BaseController {
     }
 
     // withdraw wallet
-    const totalBalance = balance - amount;
     await db("wallet")
       .update({
-        balance: totalBalance,
+        balance: balance - amount,
       })
       .where("wallet.user_id", userId);
 
@@ -214,8 +211,7 @@ export default class WalletController extends BaseController {
       res,
       RESPONSE_CODE.WITHDRAWAL_SUCCESSFULL,
       "withdrawal successfully.",
-      201,
-      { totalBalance }
+      201
     );
   }
 }
